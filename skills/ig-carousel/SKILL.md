@@ -88,7 +88,7 @@ copy.
 ```
 CAROUSEL  ·  8 slides
 
-1  COVER   THE $18,000 CLAUSE
+1  COVER   THE 18K CLAUSE
            One line I now put in every contract.
 2  STAKE   I approved the work. They asked for the money back nine days later.
 3          WHAT IT SAYS
@@ -101,3 +101,9 @@ Caption: Job B, hook in line 1, one ask, 3 tags.
 ```
 
 Nothing is uploaded. The user posts it.
+
+If Metricool is connected and the user asks to schedule it, run the gate in
+`/ig-caption`. The slides go in as a POST with one media URL per slide, in
+slide order, and the cover's alt text goes in `mediaAltText`. The rendered
+files have to be somewhere public first (a Drive or Dropbox link works), so
+ask where they are rather than assuming.

@@ -117,3 +117,60 @@ linter:     READY
 ```
 
 Nothing is posted. The user pastes it.
+
+## If Metricool is connected: the scheduling gate
+
+When the Metricool connector is present (a tool ending in
+`createScheduledPost`, possibly deferred), you can put the finished post into
+the user's Metricool planner instead of leaving it to paste. This is the one
+place in the pack that touches the account, so the gate is strict.
+
+**Only on an explicit ask.** "Yes" to the receipt above means the copy is
+approved, not that it may be scheduled. Offer it in one line, and act only on
+something like "schedule it" for this post.
+
+**Get what Instagram requires first.** A REEL needs a video, a POST needs an
+image or a carousel of images, a STORY needs either. Media has to be a public
+URL, or a Google Drive or Dropbox link. If the user has not given one, ask.
+Never schedule without the media and never substitute a stock image.
+
+**Show the exact call before making it:**
+
+```
+SCHEDULE THIS?
+type:        REEL
+when:        Thu 16 Oct, 19:30 Europe/London   (Metricool best time: yes)
+mode:        draft in your Metricool planner, nothing publishes
+media:       https://drive.google.com/...
+caption:     the block above, unchanged
+1st comment: none
+AI label:    off   (your call: Instagram asks for it on AI-made media)
+
+Reply "schedule it" to send, or change any line.
+```
+
+**The defaults, and what changes them:**
+
+- **`draft: true`** by default. It lands in the planner and nothing goes out
+  until the user opens Metricool and approves it there. That keeps the pack's
+  rule intact: the user posts.
+- **`autoPublish: false`** if they want it timed but still hand-posted.
+  Metricool sends a push to their phone at the time and they tap publish.
+- **`draft: false` with `autoPublish: true`** only when the user explicitly
+  asks for it to publish on its own, in those words.
+- Timezone and brand id come from `getBrandSettings`. Time comes from the user
+  or `/ig-plan`, or `getBestTimeToPostByNetwork` if they say "whenever is
+  best". The date cannot be in the past.
+- **Never set `boost`, `boostPayer` or `boostBeneficiary`.** That spends money.
+- **`isAiGenerated` is the user's declaration.** Ask, do not decide. A script
+  written with help but shot by the user on their own camera is usually not
+  what Instagram means. AI-made footage or images are.
+
+After the call, print the `plannerUrl` it returns. If the call errors, relay
+the error as it came back and change nothing on your own. To change a post
+already in the planner, `getScheduledPosts` first, then `updateScheduledPost`
+with the full original content and only the asked-for change, because that
+call overwrites with no undo.
+
+Nothing here comments, follows, likes or DMs. Metricool does not do that and
+this pack does not either.

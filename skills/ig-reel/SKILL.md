@@ -96,6 +96,11 @@ Reply "yes" to log it, or tell me what to change.
 posts it. On "yes", append to `~/.claude/instagram/log.md` with the date, the
 hook formula used and the first line, so `/ig-audit` has a history later.
 
+If Metricool is connected, the user can schedule the finished Reel once it is
+shot and captioned. That runs through the gate in `/ig-caption`, and it needs
+the video as a link, so it cannot happen before they film it. Do not offer it
+until the caption exists.
+
 ## On-screen text is a separate script
 
 Write it separately, every time. It is read before it is heard.
@@ -114,7 +119,7 @@ Write it separately, every time. It is read before it is heard.
 ## Rules that make the difference
 
 - **One idea per Reel.** If the script has two, you have two Reels. Say so.
-- **Numbers over adjectives.** "$4,200" beats "a lot". If the user has not
+- **Numbers over adjectives.** "4,200 dollars" beats "a lot". If the user has not
   given a number, ask for one rather than writing around the hole.
 - **Cut the intro.** No greeting, no "in this video", no name, no logo sting.
   The video starts at the sentence you would normally reach at second six.

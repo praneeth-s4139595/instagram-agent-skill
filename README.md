@@ -1,7 +1,7 @@
 # The Instagram agent skill
 
 Thirteen Claude skills that run an Instagram account. Free, MIT, no signup, no
-API key, nothing to connect.
+API key, nothing to connect. (Metricool is optional, see below.)
 
 One of them writes your Reels off 26 hook formulas and scores the hook before
 you waste a take on it. One goes and finds the reels that are actually working
@@ -219,6 +219,29 @@ SWIPE FILE  ·  4 reels  ·  4 accounts  ·  baseline: account median
            "in this video I am going to show you my morning routine"
 ```
 
+## Optional: connect Metricool
+
+Everything above works with nothing connected. If you add the
+[Metricool](https://metricool.com) connector in Claude and link your Instagram
+Professional account to a Metricool brand, five skills use it:
+
+| skill | what changes |
+| --- | --- |
+| `/ig-audit` | pulls the last 90 days of reels and posts instead of asking for screenshots |
+| `/ig-plan` | posting times from your own account, and checks what is already queued |
+| `/ig-viral` | pulls the competitors you track in Metricool, ranked on interactions |
+| `/ig-caption` | can put the finished post into your Metricool planner, as a draft |
+| `/ig-reel` `/ig-carousel` `/ig-story` | hand off to the same gate once the media exists |
+
+What it does not give you: follows per reel and the non-follower share of
+reach. `/ig-audit` asks for those two by hand rather than guessing.
+
+Scheduling keeps the rule this repo is built on. It only happens when you say
+"schedule it" for that post, it shows you the exact post first, and it lands
+as a **draft** unless you ask for something else in so many words. Metricool
+publishes through Instagram's own API, which is the supported route. It never
+boosts, comments, follows or DMs.
+
 ## What I actually measured, which is the part worth reading
 
 I did not want to publish a hook scorer on the claim that it feels right, so I
@@ -272,8 +295,11 @@ on `yt-dlp`, but the method is four lines and is written out in
 **These skills do not post to Instagram.** There is a real Content Publishing
 API for Professional accounts, and it needs a Meta developer app, a linked
 Page, a long-lived token and app review, which is not a thing a skill can hand
-you. Everything else people use to automate posting, commenting, following or
-DMing is browser automation or a third-party tool, and both violate
+you. Scheduling tools that are Meta partners, Metricool among them, use that
+API for you, which is why the optional Metricool hookup is allowed and why it
+stops at drafts by default. Everything else people use to automate posting,
+commenting, following or DMing is browser automation or an unofficial tool,
+and both violate
 [Instagram's Terms of Use](https://help.instagram.com/581066165581870) and get
 accounts action-blocked. So every skill here ends the same way: a copy-ready
 block, and you post it. That is not a limitation bolted on afterwards, it is

@@ -95,3 +95,9 @@ After: everyone who votes Yes gets a reply. That is the whole funnel.
 ```
 
 Nothing is posted. The user posts it.
+
+If Metricool is connected, a frame that is only an image or a video can be
+scheduled through the gate in `/ig-caption` as a STORY, with no caption text.
+**Frames with a sticker cannot.** Polls, question boxes, quizzes and links are
+added in the Instagram app, so those frames stay hand-posted. Say which frames
+are which, and do not offer to schedule the ask frame. It is the whole funnel.

@@ -3,9 +3,9 @@ name: ig-audit
 description: >-
   Post-mortem on what the user has already posted - which reels actually
   worked, why, and what to stop making. Use when the user pastes their
-  Instagram insights or past posts and asks "what's working", "why did this
-  flop", "read my analytics", "audit my content", or wants to know what to do
-  more of.
+  Instagram insights or past posts, or has Metricool connected, and asks
+  "what's working", "why did this flop", "read my analytics", "audit my
+  content", or wants to know what to do more of.
 ---
 
 # ig-audit
@@ -26,6 +26,45 @@ Ask for whichever the user has:
 
 Also read `~/.claude/instagram/log.md` if it exists, since it records which
 hook formula each post used.
+
+## If Metricool is connected, pull it instead of asking
+
+Check the tool list for the Metricool connector: tools ending in
+`getBrandSettings` and `getAnalyticsDataByMetrics`. They may be listed as
+deferred, in which case load them through tool search first. If they are not
+there, use the paste flow above and mention once that connecting Metricool
+skips it.
+
+1. **`getBrandSettings`** for the brand id and timezone. If it says no network
+   is connected, or the brand has no Instagram, relay the connection link it
+   returns and fall back to the paste flow. Do not retry.
+2. **`getAnalyticsAvailableMetrics`** with `network: instagram` and
+   `connector: reels`, then `posts`. Field ids get deprecated ("Do not use this
+   field"), so check the list rather than trusting the ids below blind.
+3. **`getAnalyticsDataByMetrics`**, last 90 days, one call per connector:
+
+| need | reels | posts |
+| --- | --- | --- |
+| date, text, url | `IGRE02` `IGRE03` `IGRE06` | `IGPO02` `IGPO03` `IGPO06` `IGPO07` (type) |
+| views | `IGRE23` | `IGPO28` |
+| reach | `IGRE11` | `IGPO14` |
+| sends | `IGRE21` shares | `IGPO27` shares |
+| saves | `IGRE12` | `IGPO15` |
+| hold at 3s | `IGRE28` reel view rate | - |
+| watch time | `IGRE24` average, `IGRE27` retention | - |
+| follows | - | `IGPO29` |
+
+Say plainly what this does **not** give you: follows per reel and the
+non-follower share of reach. Ask for those two from the app's own insights
+screen for the top five and bottom five only, or mark them `n/a`. Never fill
+the gap with an estimate.
+
+`IGRE28` is Metricool's three-second view rate, not the retention graph. Label
+it as that in the output. It is close enough to grade the hook and not close
+enough to read the middle of the video.
+
+This is read only. The audit never schedules, edits or deletes anything in
+Metricool.
 
 ## What to actually measure
 

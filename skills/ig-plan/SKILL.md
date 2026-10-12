@@ -62,6 +62,22 @@ their hooks work, they are polishing the wrong thing, and you should say so.
 
 Anchor times to the audience's timezone, not the user's, if those differ.
 
+**If Metricool is connected** (tools ending in `getBrandSettings` and
+`getBestTimeToPostByNetwork`, possibly deferred), use the account's own data
+instead of the defaults above:
+
+1. `getBrandSettings` for the brand id and timezone. If no Instagram is
+   connected there, relay the link it returns and use the defaults.
+2. `getBestTimeToPostByNetwork` with `socialNetwork: instagram` for the coming
+   seven days, in that timezone. Take the highest-scoring slot on each posting
+   day and say it came from Metricool.
+3. `getScheduledPosts` for the same week, so the plan does not double-book a
+   day that already has something queued, and so a queued post's theme counts
+   toward "never two of the same type back to back".
+
+The hour still matters far less than the first two seconds. Better data on
+timing does not change that sentence.
+
 ## The engagement round, which is not optional
 
 20 minutes a day, before posting, not after. Build a list of 10:

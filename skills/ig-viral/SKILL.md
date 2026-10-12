@@ -84,6 +84,30 @@ small enough to read.
 Median is the important one. Without it you are back to ranking by follower
 count, which is the thing this skill exists to stop.
 
+**If Metricool is connected**, the accounts the user has added as Instagram
+competitors in Metricool can be pulled instead of read by hand. Metricool is
+reading its own tracked data through Instagram's API; nothing here logs in or
+scrapes.
+
+1. `getBrandSettings` for the brand id. No Instagram connected there means no
+   competitor data: relay the link it returns and read by hand.
+2. `getAnalyticsDataByMetrics`, last 90 days: `IGCO02` handle and `IGCO07`
+   followers from `competitors`, then `IGCR01` handle, `IGCR03` text, `IGCR04`
+   url, `IGCR06` date, `IGCR09` interactions from `competitor reels`. Check
+   the ids with `getAnalyticsAvailableMetrics` first.
+3. **Competitor reels carry no view counts**, only likes, comments and
+   interactions. So the multiple here is interactions over that account's
+   median interactions. Put interactions in both the `views` and `median`
+   columns of the TSV and say "baseline: median interactions" in the report.
+   It is a weaker signal than views and the report has to say so.
+4. **`IGCR03` is the caption, not the hook.** The spoken first line is still
+   read by hand, from the reel itself, for every row that lands in the top
+   third. That is a dozen reels, not a hundred.
+
+Competitors are only the accounts the user chose to track in Metricool. The
+adjacent and outsized accounts from step 1 usually are not in there, so read
+those by hand as before.
+
 **When Instagram will not show you enough:** the same hook grammar runs on
 YouTube Shorts, where view counts and transcripts are public and no login is
 involved. It is a legitimate second corpus, and the spoken hook is easier to
